@@ -1,0 +1,4 @@
+ rubpy
+requests
+aiohttp
+deep_translator 
