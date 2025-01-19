@@ -368,11 +368,11 @@ async def handle_search(update: Updates):
         # تشخیص زبان کلمه کلیدی
         language = "fa" if any('\u0600' <= c <= '\u06ff' for c in keyword) else "en"
         
-        # کدگذاری کلمه کلیدی برای ارسال به API
+       
         keyword_encoded = urllib.parse.quote(keyword)
 
-        # انتخاب سوره و ترجمه (در اینجا پیش‌فرض برای همه سوره‌ها و زبان انگلیسی انتخاب می‌شود)
-        surah = "all"  # یا شماره سوره مانند "2" برای سوره بقره
+       
+        surah = "all"  
         edition = get_edition(language)
 
         # ساخت URL برای درخواست به API
@@ -388,7 +388,7 @@ async def handle_search(update: Updates):
                 await update.reply(f"هیچ نتیجه‌ای برای کلمه '{keyword}' پیدا نشد.")
                 return
 
-            # آماده کردن نتایج برای ارسال به کاربر
+           
             results = []
             for match in data.get('data', {}).get('matches', []):
                 results.append(f"سوره: {match['surah']['englishName']} ({match['surah']['name']})\n"
@@ -396,13 +396,13 @@ async def handle_search(update: Updates):
                                f"متن: {match['text']}\n")
 
             if results:
-                # اگر تنها یک نتیجه پیدا شده باشد، مستقیم ارسال می‌کنیم
+              
                 if len(results) == 1:
                     await update.reply(results[0])
                 else:
-                    # اگر نتایج بیشتر از یک عدد باشند، تنها 5 نتیجه ارسال می‌شود
-                    chunk_size = 5  # تعداد نتایج هر بخش
-                    chunk = "\n\n".join(results[:chunk_size])  # ارسال 5 نتیجه اول
+                    
+                    chunk_size = 5  
+                    chunk = "\n\n".join(results[:chunk_size])  
                     await update.reply(chunk)
 
             else:
@@ -415,10 +415,10 @@ async def handle_search(update: Updates):
 async def chatbot(update: Updates):
     message_text = update.text
 
-    # اگر پیام با + شروع شود، سوال به API ارسال می‌شود
+    
     if message_text.startswith("+"):
         await update.reply(f"درحال پردازش سوال شما :\n{message_text}")
-        user_input = message_text[1:].strip()  # حذف علامت + از ابتدا
+        user_input = message_text[1:].strip() 
 
         if not user_input:
             await update.reply("لطفاً سوال خود را وارد کنید.")
